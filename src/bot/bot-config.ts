@@ -6,7 +6,7 @@ export class BotConfig implements DiscordOptionsFactory {
   createDiscordOptions(): DiscordModuleOption {
     return {
       intents: null,
-      token: 'Njg2MzI2OTMwNTg4NTY1NTQx.XmVlww.EF_bMXRvYgMUCQhg_jYnieoBW-k',
+      token: process.env.TOKEN,
       commandPrefix: '!',
     };
   }
