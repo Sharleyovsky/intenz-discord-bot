@@ -24,6 +24,8 @@
     "@nestjs/common": "^7.6.15",
     "@nestjs/core": "^7.6.15",
     "@nestjs/platform-express": "^7.6.15",
+    "@nestjs/schedule": "^1.0.1",
+    "@types/cron": "^1.7.3",
     "axios": "^0.21.4",
     "discord-nestjs": "^1.2.1",
     "discord.js": "^13.1.0",
