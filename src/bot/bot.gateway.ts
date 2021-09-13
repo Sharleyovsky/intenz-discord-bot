@@ -1,6 +1,14 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { Once, DiscordClientProvider } from 'discord-nestjs';
-import { Guild } from 'discord.js';
+import {
+  CategoryChannel,
+  Guild,
+  NewsChannel,
+  StageChannel,
+  StoreChannel,
+  TextChannel,
+  VoiceChannel,
+} from 'discord.js';
 
 @Injectable()
 export class BotGateway {
@@ -20,6 +28,37 @@ export class BotGateway {
       }
 
       return guild;
+    } catch (error) {
+      this.logger.error(error);
+      return null;
+    }
+  }
+
+  async getChannel(
+    name: string,
+  ): Promise<
+    | TextChannel
+    | VoiceChannel
+    | CategoryChannel
+    | NewsChannel
+    | StoreChannel
+    | StageChannel
+    | null
+  > {
+    try {
+      const guild = this.getGuild(process.env.SERVER_NAME);
+      const channels = await guild.channels.fetch();
+
+      const [channel] = channels.map(
+        (channel) =>
+          channel.name.toLowerCase() === name.toLowerCase() && channel,
+      );
+
+      if (!channel) {
+        throw new Error('Channel not found!');
+      }
+
+      return channel;
     } catch (error) {
       this.logger.error(error);
       return null;
