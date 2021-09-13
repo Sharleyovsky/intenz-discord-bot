@@ -9,11 +9,24 @@ import {
   TextChannel,
   VoiceChannel,
 } from 'discord.js';
+import axios from 'axios';
+import { ServerData } from '../interfaces/ServerData';
 
 @Injectable()
 export class BotGateway {
+  private readonly url = process.env.API_URL;
   private readonly logger = new Logger(BotGateway.name);
   constructor(private readonly discordProvider: DiscordClientProvider) {}
+
+  async getServerData(): Promise<ServerData | null> {
+    try {
+      const { data } = await axios.get(this.url);
+      return data;
+    } catch (error) {
+      this.logger.error(error);
+      return null;
+    }
+  }
 
   getGuild(name: string): Guild | null {
     try {
