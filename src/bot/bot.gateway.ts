@@ -27,7 +27,7 @@ export class BotGateway {
   }
 
   @Once({ event: 'ready' })
-  async onReady(): Promise<void> {
+  onReady(): void {
     this.logger.verbose(
       `Logged in as ${this.discordProvider.getClient().user.tag}!`,
     );
