@@ -1,3 +1,5 @@
+import { Status } from "./Status";
+
 export interface ServerData {
   f42e9fc96a44d66055794c1e7c5ba4b0a13a8196: {
     environment: {
@@ -14,14 +16,7 @@ export interface ServerData {
     name: string;
     offline: boolean;
     online: boolean;
-    status: {
-      players: number;
-      queue: {
-        active: boolean;
-        size: number;
-      };
-      slots: number;
-    };
+    status: Status;
     version: string;
     map: string;
     host: {
