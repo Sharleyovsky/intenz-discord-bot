@@ -12,7 +12,7 @@ export class BotGateway {
   private readonly logger = new Logger(BotGateway.name);
   constructor(private readonly discordProvider: DiscordClientProvider) {}
 
-  @Cron(CronExpression.EVERY_MINUTE)
+  @Cron(CronExpression.EVERY_30_SECONDS)
   async editBotActivity() {
     try {
       const serverData = await this.getServerData();
@@ -21,16 +21,6 @@ export class BotGateway {
     } catch (error) {
       this.logger.error(error);
     }
-  }
-
-  getRandomInt(min: number, max: number): number {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min)) + min;
-  }
-
-  async sleep(ms: number): Promise<number> {
-    return new Promise((resolve) => setTimeout(resolve, ms));
   }
 
   getActivityStatus(serverData: ServerData): string {
