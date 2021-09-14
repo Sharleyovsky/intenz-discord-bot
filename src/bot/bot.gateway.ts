@@ -1,6 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { Once, DiscordClientProvider } from 'discord-nestjs';
-import { Guild } from 'discord.js';
 import axios from 'axios';
 import { ServerData } from '../interfaces/ServerData';
 import { Cron, CronExpression } from '@nestjs/schedule';
@@ -48,25 +47,6 @@ export class BotGateway {
     try {
       const { data } = await axios.get(this.url);
       return data;
-    } catch (error) {
-      this.logger.error(error);
-      return null;
-    }
-  }
-
-  getGuild(name: string): Guild | null {
-    try {
-      const guild = this.discordProvider
-        .getClient()
-        .guilds.cache.find(
-          (guild) => guild.name.toLowerCase() === name.toLowerCase(),
-        );
-
-      if (!guild) {
-        throw new Error(`Guild ${name} not found!`);
-      }
-
-      return guild;
     } catch (error) {
       this.logger.error(error);
       return null;
