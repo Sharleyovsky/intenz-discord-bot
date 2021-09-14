@@ -13,27 +13,19 @@ import axios from 'axios';
 import { ServerData } from '../interfaces/ServerData';
 import { Cron, CronExpression } from '@nestjs/schedule';
 import { Status } from '../interfaces/Status';
-import { writeFile } from 'fs/promises';
-import { readFileSync } from 'fs';
 
 @Injectable()
 export class BotGateway {
   private readonly url = process.env.API_ENDPOINT;
   private readonly logger = new Logger(BotGateway.name);
-  private readonly fileName = 'channelData.txt';
   constructor(private readonly discordProvider: DiscordClientProvider) {}
 
   @Cron(CronExpression.EVERY_MINUTE)
-  async editServerChannels() {
+  async editBotActivity() {
     try {
       const serverData = await this.getServerData();
-      const channelName = this.getChannelName().trim();
-
-      const channel = await this.getChannel(channelName);
-      const newChannelName = this.getNewChannelName(serverData);
-      await channel.edit({ name: newChannelName });
-
-      await writeFile(this.fileName, newChannelName.trim());
+      const activityStatus = this.getActivityStatus(serverData);
+      this.discordProvider.getClient().user.setActivity(activityStatus);
     } catch (error) {
       this.logger.error(error);
     }
@@ -49,11 +41,7 @@ export class BotGateway {
     return new Promise((resolve) => setTimeout(resolve, ms));
   }
 
-  getChannelName(): string {
-    return readFileSync(this.fileName, 'utf-8');
-  }
-
-  getNewChannelName(serverData: ServerData): string {
+  getActivityStatus(serverData: ServerData): string {
     const { f42e9fc96a44d66055794c1e7c5ba4b0a13a8196, errorMessage } =
       serverData;
 
