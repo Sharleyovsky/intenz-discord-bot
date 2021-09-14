@@ -1,14 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
 import { Once, DiscordClientProvider } from 'discord-nestjs';
-import {
-  CategoryChannel,
-  Guild,
-  NewsChannel,
-  StageChannel,
-  StoreChannel,
-  TextChannel,
-  VoiceChannel,
-} from 'discord.js';
+import { Guild } from 'discord.js';
 import axios from 'axios';
 import { ServerData } from '../interfaces/ServerData';
 import { Cron, CronExpression } from '@nestjs/schedule';
@@ -85,36 +77,6 @@ export class BotGateway {
       }
 
       return guild;
-    } catch (error) {
-      this.logger.error(error);
-      return null;
-    }
-  }
-
-  async getChannel(
-    name: string,
-  ): Promise<
-    | TextChannel
-    | VoiceChannel
-    | CategoryChannel
-    | NewsChannel
-    | StoreChannel
-    | StageChannel
-    | null
-  > {
-    try {
-      const guild = this.getGuild(process.env.SERVER_NAME);
-      const channels = await guild.channels.fetch();
-
-      const channel = channels.find(
-        (channel) => channel.name.toLowerCase() === name.toLowerCase(),
-      );
-
-      if (!channel) {
-        throw new Error(`Channel ${name} not found!`);
-      }
-
-      return channel;
     } catch (error) {
       this.logger.error(error);
       return null;
