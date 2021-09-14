@@ -16,7 +16,7 @@ TOKEN = DISCORD BOT AUTHENTICATION TOKEN
 SERVER_NAME = YOUR DISCORD SERVER NAME
 API_ENDPOINT = API ENDPOINT (default: https://dayzintenz.com/api/dayzsa/CfServerInfo)
 ```
-
+Run commands below to start the app.
 ```bash
 # development
 $ yarn start
