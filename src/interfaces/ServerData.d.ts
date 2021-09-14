@@ -1,4 +1,4 @@
-import { Status } from "./Status";
+import { Status } from './Status';
 
 export interface ServerData {
   f42e9fc96a44d66055794c1e7c5ba4b0a13a8196: {
