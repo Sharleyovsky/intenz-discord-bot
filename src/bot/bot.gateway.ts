@@ -18,7 +18,7 @@ import { readFileSync } from 'fs';
 
 @Injectable()
 export class BotGateway {
-  private readonly url = process.env.API_URL;
+  private readonly url = process.env.API_ENDPOINT;
   private readonly logger = new Logger(BotGateway.name);
   private readonly fileName = 'channelData.txt';
   constructor(private readonly discordProvider: DiscordClientProvider) {}
