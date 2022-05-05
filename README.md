@@ -18,6 +18,9 @@ API_ENDPOINT = API ENDPOINT (default: https://dayzintenz.com/api/dayzsa/CfServer
 
 Run commands below to start the app.
 ```bash
+#Start by installing packages
+$ yarn install
+
 # development
 $ yarn start
 
@@ -25,5 +28,6 @@ $ yarn start
 $ yarn start:dev
 
 # production mode
+$ yarn build
 $ yarn start:prod
 ```
