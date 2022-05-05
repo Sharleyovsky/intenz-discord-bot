@@ -29,7 +29,7 @@ $ yarn build
 $ yarn start:prod
 ```
 
-##Running the app with docker
+## Running the app with docker
 ```bash
 TOKEN=YOUR_DISCORD_TOKEN API_ENDPOINT=https://dayzintenz.com/api/dayzsa/CfServerInfo docker compose up -d --build
 ```
