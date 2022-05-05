@@ -1,5 +1,6 @@
 import { Injectable, Logger } from '@nestjs/common';
-import { Once, DiscordClientProvider } from 'discord-nestjs';
+import { Once, InjectDiscordClient } from '@discord-nestjs/core';
+import { Client } from 'discord.js';
 import axios from 'axios';
 import { ServerData } from '../interfaces/ServerData';
 import { Cron, CronExpression } from '@nestjs/schedule';
@@ -9,14 +10,17 @@ import { Status } from '../interfaces/Status';
 export class BotGateway {
   private readonly url = process.env.API_ENDPOINT;
   private readonly logger = new Logger(BotGateway.name);
-  constructor(private readonly discordProvider: DiscordClientProvider) {}
+  constructor(
+    @InjectDiscordClient()
+    private readonly client: Client,
+  ) {}
 
   @Cron(CronExpression.EVERY_30_SECONDS)
   async editBotActivity() {
     try {
       const serverData = await this.getServerData();
       const activityStatus = this.getActivityStatus(serverData);
-      this.discordProvider.getClient().user.setActivity(activityStatus);
+      this.client.user.setActivity(activityStatus);
     } catch (error) {
       this.logger.error(error);
     }
@@ -53,10 +57,8 @@ export class BotGateway {
     }
   }
 
-  @Once({ event: 'ready' })
+  @Once('ready')
   onReady(): void {
-    this.logger.verbose(
-      `Logged in as ${this.discordProvider.getClient().user.tag}!`,
-    );
+    this.logger.verbose(`Logged in as ${this.client.user.tag}!`);
   }
 }
